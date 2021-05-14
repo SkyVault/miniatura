@@ -1,9 +1,14 @@
 #lang racket/gui
 
-(provide make-thing)
+(provide thing%)
 
-(define (make-thing title parent)
-  (new panel%
-    [parent parent]
-    [style (list 'border)]
-    [min-height 64])) 
+(define thing%
+  (class object%
+    (init-field title parent) 
+
+    (field 
+      [panel 
+        (new panel%
+          [parent parent]
+          [style (list 'border)]
+          [min-height 64])])))

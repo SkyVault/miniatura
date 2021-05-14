@@ -40,8 +40,8 @@
          [parent main-container]
          [style (list 'auto-vscroll)]))
 
-    (for ([i 10])
-      (make-thing "Hello" things-list))
+    ;(for ([i 10])
+    ;  (make-thing "Hello" things-list))
 
     (send frame show #t)
     (super-new)))
