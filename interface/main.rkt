@@ -1,6 +1,8 @@
 #lang racket/gui
 
-(require "thing-card.rkt")
+(require 
+  "thing-card.rkt"
+  "hsv-color-picker.rkt")
 
 (define-syntax-rule (defn name args body)
   (define name (lambda args body)))
