@@ -42,8 +42,14 @@
          [parent main-container]
          [style (list 'auto-vscroll)]))
 
-    ;(for ([i 10])
-    ;  (make-thing "Hello" things-list))
+    (define pick-color-btn 
+      (new hsv-color-picker%
+        [parent things-list]))
+
+    (for ([i 10])
+      (new button%
+        [label "Hello World"]
+        [parent things-list]))
 
     (send frame show #t)
     (super-new)))
