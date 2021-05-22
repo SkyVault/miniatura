@@ -88,13 +88,16 @@
     (+thing (rectangle-gradient-horizontal
               *thumb-width* 
               *thumb-height* 
-              #:color-1 "orange"
-              #:color-2 "cyan") 
+              #:color-1 +clear+
+              #:color-2 "black") 
             '((translate 0 0)))
-    (+thing *pic* (list (do-align 'bottom-right) '(translate -64 -64))))))
+    (+thing (text "Hello World" (list (make-object color% 255 255 255) 'bold) 96) 
+            (list (do-align 'center)))
+    (+thing *pic* (list (do-align 'bottom-right) '(translate -64 -64) (do-rotate))))))
 
 (render-thumbnail *thumb*)
 
+;; (save-to-png (scale-to-fit (render-thumbnail *thumb*) *thumb-width* *thumb-height*) "test.png")
 (show-pict (render-thumbnail *thumb*) *thumb-width* *thumb-height*)
 
 ;;(save-to-png (red-circle 200) "test.png")
