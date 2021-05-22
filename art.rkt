@@ -8,7 +8,8 @@
 (provide 
   +clear+ 
   rect
-  rect-2tone
+  rectangle-gradient-vertical
+  rectangle-gradient-horizontal
   load-png
   save-to-png)
 
@@ -19,7 +20,7 @@
         (send dc draw-rectangle dx dy width height))
       width height))
 
-(define (rect-2tone 
+(define (rectangle-gradient-vertical
           width 
           height 
           #:border-width [border-width 1] 
@@ -39,6 +40,35 @@
               (+ dy height)
               `((0 ,(make-object color% color-1))
                 (1 ,(make-object color% color-2)))))
+          (send dc set-brush (new brush% [gradient gradient]))
+          (send dc set-pen "black" 1 'transparent)
+          (send dc draw-rectangle dx dy width height)
+          (send dc set-brush old-brush)
+          (send dc set-pen old-pen)))
+    width height))
+
+(define (rectangle-gradient-horizontal
+          width 
+          height 
+          #:border-width [border-width 1] 
+          #:border-color [border-color "transparent"]
+          #:color-1 [color-1 "white"]
+          #:color-2 [color-2 "black"]
+          #:x-skew [x-skew 0])
+  (dc (lambda (dc dx dy)
+        (let ([old-brush (send dc get-brush)]
+              [old-pen (send dc get-pen)])
+
+          (define gradient
+            (make-object 
+              linear-gradient% 
+              (- dx (/ width 2))
+              dy
+              (- (+ dx width) (/ width 2))
+              (+ dy height)
+              `((0 ,(make-object color% color-1))
+                (1 ,(make-object color% color-2)))))
+
           (send dc set-brush (new brush% [gradient gradient]))
           (send dc set-pen "black" 1 'transparent)
           (send dc draw-rectangle dx dy width height)

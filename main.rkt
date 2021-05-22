@@ -33,7 +33,7 @@
 (define (t-translate p x y) (translate p (- x (/ (pict-width p) 2)) y))
 (define (b-translate p x y) (translate p (- x (/ (pict-width p) 2)) (- y (pict-height p))))
 
-(define (do-align [side 'center] [margin '(0 0)])
+(define (do-align [side 'center])
   (match side
     ['top-left '(translate 0 0)]
     ['left '(l-translate 0 (/ *thumb-height* 2))]
@@ -62,20 +62,36 @@
    (filled-rectangle *thumb-width* *thumb-height* #:color color)
    '()))
 
+(define (make-wallpaper path)
+  (+thing (scale-to-fit 
+            (load-png path) 
+            *thumb-width* 
+            *thumb-height*
+            #:mode 'inset/max) '()))
+
 (define *pic* (filled-rectangle 100 100 #:color "Purple"))
 (define *pipe* (list (do-align 'left) (do-scale 0.5))) 
 
 (define (render-thumbnail thumb)
   (define pictures
     (for/list ([it (+thumbnail-things thumb)])
-      (do-pipe (+thing-pipe it) (+thing-pic it))))
+      (do-pipe 
+        (+thing-pipe it) 
+        (+thing-pic it))))
   (apply lt-superimpose (cons (blank *thumb-width* *thumb-height*) pictures)))
 
 (define *thumb*
   (+thumbnail
    (list
     (make-background "black")
-    (+thing *pic* (list (do-align 'top-left))))))
+    (make-wallpaper "assets/tree.png")
+    (+thing (rectangle-gradient-horizontal
+              *thumb-width* 
+              *thumb-height* 
+              #:color-1 "orange"
+              #:color-2 "cyan") 
+            '((translate 0 0)))
+    (+thing *pic* (list (do-align 'bottom-right) '(translate -64 -64))))))
 
 (render-thumbnail *thumb*)
 
