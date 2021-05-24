@@ -18,6 +18,7 @@
 
   *thumb-width*
   *thumb-height*
+  +thing-type
 
   do-align
   do-scale
@@ -151,7 +152,7 @@
 (define (do-pipe pipe p)
   (eval (foldr inject p pipe) ns))
 
-(struct +thing (pic pipe))
+(struct +thing (pic pipe type) #:transparent #:mutable)
 (struct 
   thumbnail 
   (things)

@@ -9,6 +9,18 @@
 (define-syntax-rule (defn name args body)
   (define name (lambda args body)))
 
+(define (new-rect-panel parent)
+  (define 
+    container
+    (new group-box-panel%
+      [parent parent]
+      [label "Rect"]
+      [min-height 200]))
+    
+  (new message% 
+    [parent container]
+    [label "Rectangle"]))
+
 (define application% 
   (class object%
     (init-field width height)
@@ -70,9 +82,11 @@
           (cons 
             (+thing 
               (filled-rectangle 10 10 #:color "Purple") 
-              `((translate ,x ,y)))
+              `((translate ,x ,y))
+              'rect)
             (thumbnail-things result)))
-        (update-preview-canvas)))
+        (update-preview-canvas)
+        (update-things-list)))
 
     (define new-buttton
       (new button%
@@ -83,8 +97,16 @@
     (define things-list
       (new vertical-panel%
          [parent right-side-panel]
-         [style (list 'auto-vscroll)]
-         [min-height (- height 32)]))
+         [style (list 'auto-vscroll)]))
+
+    (define (update-things-list)
+      (for ([x (thumbnail-things result)])
+
+          (match (+thing-type x)
+            ['rect (new-rect-panel things-list)]
+            [else '()])
+        
+        ))
 
     (send frame show #t)
     (super-new)))
